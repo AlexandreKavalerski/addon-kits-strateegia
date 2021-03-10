@@ -17,13 +17,15 @@ btnMinhas?.addEventListener("click", (e: Event) => {
 async function buscarMinhasFerramentas(token: string){
     const kits = await getAll(token);
 
-    console.log(kits);
+    
+    
+    const isCustom = (kit: any) => kit.tier === 'CUSTOM';
+    
+    const customKits = kits.content.filter(isCustom);
+    
+    localStorage.setItem('strateegia_api_custom_kits', JSON.stringify(customKits));
+    location.href = '../front/mykits.html';
     
 
-    const isCustom = (kit: any) => kit.tier === 'CUSTOM';
-
-    const custom = kits.content.filter(isCustom);
-
-    console.log(custom);
 }
 
