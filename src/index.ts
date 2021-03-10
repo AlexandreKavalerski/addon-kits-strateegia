@@ -16,6 +16,6 @@ btnLogin?.addEventListener("click", (e: Event) => {
 
 async function login(username: string, password: string){    
     const token = await auth(username, password);
-    localStorage.setItem('token', token);
+    localStorage.setItem('strateegia_api_token', token);
     location.href = '../front/home.html';
 }
