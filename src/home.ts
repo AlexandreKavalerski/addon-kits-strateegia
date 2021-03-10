@@ -1,4 +1,4 @@
-import { getAll } from "./api/kits.js";
+import { getAll } from "./api/kits";
 
 console.log(`home`);
 

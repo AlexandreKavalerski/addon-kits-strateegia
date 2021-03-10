@@ -1,4 +1,4 @@
-import { auth } from "./api/auth.js";
+import { auth } from "./api/auth";
 
 const btnLogin = document.getElementById("btnLogin");
 
