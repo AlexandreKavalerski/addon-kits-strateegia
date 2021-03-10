@@ -1,0 +1,22 @@
+{
+  "name": "addon-kits-strateegia",
+  "version": "1.0.0",
+  "description": "Add-on para a plataforma strateegia: compartilhamento de kits",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexandreKavalerski/addon-kits-strateegia.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexandreKavalerski/addon-kits-strateegia/issues"
+  },
+  "homepage": "https://github.com/AlexandreKavalerski/addon-kits-strateegia#readme",
+  "devDependencies": {
+    "typescript": "^4.2.3"
+  }
+}
