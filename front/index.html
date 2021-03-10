@@ -1,23 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport">
-    <title>Document</title>
-</head>
-<body>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <form>
-        Email:
-        <input type="text" name="username" id="username">
-        <br/><br/>
-        Senha:
-        <input type="password" name="password" id="password">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
-        <input type="button" id="btnLogin" value="entrar">
-    </form>
+    <title>Login</title>
+  </head>
+  <body>
+
+    <div class="container p-3">
+        <form class="form-group center-block" onsubmit="return false">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">seu login em strateegia</label>
+              <input type="email" class="form-control" id="username" aria-describedby="emailHelp">
+              <div id="emailHelp" class="form-text">não vamos guardar essa informação e nem distribuir com ninguém</div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">sua senha em strateegia</label>
+                <input type="password" class="form-control" id="password">
+                <div id="emailHelp" class="form-text">muito menos essa</div>
+            </div>
+            <button class="btn btn-primary" id="btnLogin">Entrar</button>
+        </form>
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     
     <script type="module" src="../dist/index.js"></script>
-</body>
+  </body>
 </html>
