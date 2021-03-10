@@ -27,7 +27,31 @@ function loadCustomKits(customKits: any[]){
 
 function addMarkup(markup: string){
     const container = document.getElementById("listKits") as HTMLElement;
-    container.innerHTML = markup;
+    container.innerHTML = markup;    
+    addListenerMakeAvailable();
+}
+
+function addListenerMakeAvailable(){
+    Array.from(document.getElementsByClassName("btnDisponibilizar") as HTMLCollectionBase).forEach(function (element) {
+        element.addEventListener('click', (event)=>{makeKitPublic(event.target as HTMLElement)});
+    })
+}
+
+function makeKitPublic(element: HTMLElement){
+    if(kits){
+        
+        const customKits = JSON.parse(kits);
+
+
+        const arraySelecionado = customKits.filter((kit: any) => {
+            return kit.id == element.id;
+        });
+
+        const kitSelecionado = JSON.parse(JSON.stringify(arraySelecionado[0]));
+        console.log(kitSelecionado);
+        alert(`o kit '${kitSelecionado.title}' criado por você agora está disponível para tds!`)
+    }  
+    
 }
 
 function renderType(type: string){
