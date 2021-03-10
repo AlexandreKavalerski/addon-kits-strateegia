@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/AlexandreKavalerski/addon-kits-strateegia#readme",
   "devDependencies": {
+    "@types/node-fetch": "^2.5.8",
     "typescript": "^4.2.3"
   }
 }
