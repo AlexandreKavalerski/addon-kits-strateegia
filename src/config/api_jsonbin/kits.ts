@@ -1,6 +1,6 @@
 const API_URL = "https://api.jsonbin.io/v3";
 const API_KEY = "$2b$10$2./HmBJ7uiLYgqD2cym/zeLh3XZ3qFjYFD7WH5I12nyGToK8K6tLa";
-const COLLECTION_ID = "60496eda7ffeba41c075536a";
+const COLLECTION_ID = "60496edb683e7e079c4bcfcf";
 
 
 async function addKit(kit: any) {
