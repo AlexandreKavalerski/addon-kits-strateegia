@@ -1,4 +1,4 @@
-import { addKit, getAll } from "../config/api_jsonbin/kits";
+import { addKit, getAll, getKitById } from "../config/api_jsonbin/kits";
 
 async function makeKitPublic(element: HTMLElement, kits: any){        
     const customKits = JSON.parse(kits);
@@ -8,15 +8,18 @@ async function makeKitPublic(element: HTMLElement, kits: any){
     });
 
     const kitSelecionado = JSON.parse(JSON.stringify(arraySelecionado[0]));
-    console.log(kitSelecionado);
     
     return await addKit(kitSelecionado);    
 }
 
-function getAllPublicKits(){
-    getAll().then((kits) =>{
-        return kits;
-    });
+async function getAllPublicKits(){
+    const kitIds = await getAll();
+    let kits: any[] = [];
+    for (let id of kitIds) {
+        const kit = await getKitById(id.record);
+        kits.push(kit.record);
+    }
+    return kits;
 }
 
 export {makeKitPublic, getAllPublicKits}

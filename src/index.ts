@@ -1,5 +1,5 @@
-import { login } from "./login/indexLogin";
-import { getMyKits } from "./home/indexHome";
-import { makeKitPublic } from "./kits/indexKits";
+import { login } from "./strateegia/indexLogin";
+import { getMyKits, importKitToStrateegia } from "./strateegia/indexStrateegia";
+import { makeKitPublic, getAllPublicKits } from "./compartilhador/indexCompartilhador";
 
-export { login, getMyKits, makeKitPublic }
+export { login, getMyKits, makeKitPublic, getAllPublicKits, importKitToStrateegia }

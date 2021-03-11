@@ -30,5 +30,20 @@ async function getById(token: string, kit_id: string){
     return data;    
 }
 
+async function addKitToUser(token:string, kit: any) {
+    const JSONkit = JSON.stringify(kit);
 
-export { getAll, getById }
+    const response = await fetch(`${API_URL}`, {
+        method: 'post',
+        headers:{
+            'Content-Type': 'application/json', 
+            'Authorization': `Bearer ${token}`
+        },
+        body: `${JSONkit}`
+    });
+
+    return await response.json();
+}
+
+
+export { getAll, getById, addKitToUser }

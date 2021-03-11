@@ -1,8 +1,13 @@
-const kits = compartilhador.getAllKits();
+(function () {
+  setTimeout(getPublicKits, 1000);
+})();
 
-kits.then((kits) => {
-  generateMarkupCustomKits(customKits);
-});
+function getPublicKits() {
+  const kits = compartilhador.getAllPublicKits();
+  kits.then((kits) => {
+    generateMarkupCustomKits(kits);
+  });
+}
 
 function generateMarkupCustomKits(customKits) {
   let markup = ``;
@@ -31,11 +36,13 @@ function addMarkup(markup) {
 }
 
 function addListenerMakeAvailable() {
+  const token = localStorage.getItem("strateegia_api_token");
+
   Array.from(document.getElementsByClassName("btnDisponibilizar")).forEach(
     function (element) {
       element.addEventListener("click", (event) => {
         compartilhador
-          .makeKitPublic(event.target, kits)
+          .importKitToStrateegia(token, event.target)
           .then((kitSelecionado) => {
             alert(
               `o kit '${kitSelecionado.title}' criado por você agora está disponível para tds!`
