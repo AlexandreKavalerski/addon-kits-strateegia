@@ -4,7 +4,9 @@
   "description": "Add-on para a plataforma strateegia: compartilhamento de kits",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "build:w": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,9 @@
   "homepage": "https://github.com/AlexandreKavalerski/addon-kits-strateegia#readme",
   "devDependencies": {
     "@types/node-fetch": "^2.5.8",
-    "typescript": "^4.2.3"
+    "ts-loader": "^8.0.18",
+    "typescript": "^4.2.3",
+    "webpack": "^5.24.4",
+    "webpack-cli": "^4.5.0"
   }
 }
