@@ -5,13 +5,13 @@
 function getPublicKits() {
   const kits = compartilhador.getAllPublicKits();
   kits.then((kits) => {
-    generateMarkupCustomKits(kits);
+    generateMarkupPublicKits(kits);
   });
 }
 
-function generateMarkupCustomKits(customKits) {
+function generateMarkupPublicKits(publicKits) {
   let markup = ``;
-  for (const kit of customKits) {
+  for (const kit of publicKits) {
     markup += `<div class="card" style="width: 18rem;">
           <div class="card-body">
             <h5 class="card-title">${kit.title}</h5>
@@ -26,23 +26,23 @@ function generateMarkupCustomKits(customKits) {
         </div>`;
   }
 
-  addMarkup(markup);
+  addMarkup(markup, publicKits);
 }
 
-function addMarkup(markup) {
+function addMarkup(markup, publicKits) {
   const container = document.getElementById("listKits");
   container.innerHTML = markup;
-  addListenerMakeAvailable();
+  addListenerMakeAvailable(publicKits);
 }
 
-function addListenerMakeAvailable() {
+function addListenerMakeAvailable(publicKits) {
   const token = localStorage.getItem("strateegia_api_token");
 
   Array.from(document.getElementsByClassName("btnDisponibilizar")).forEach(
     function (element) {
       element.addEventListener("click", (event) => {
         compartilhador
-          .importKitToStrateegia(token, event.target)
+          .importKitToStrateegia(token, event.target, publicKits)
           .then((kitSelecionado) => {
             alert(
               `o kit '${kitSelecionado.title}' foi adicionado à sua conta em strateegia`

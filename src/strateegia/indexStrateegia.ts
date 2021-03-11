@@ -1,5 +1,4 @@
-import { getAll, addKitToUser, getById } from "../config/api_strateegia/kits";
-
+import { getAll, addKitToUser } from "../config/api_strateegia/kits";
 
 async function getMyKits(token: string){
     const kits = await getAll(token);
@@ -12,12 +11,12 @@ async function getMyKits(token: string){
     return await customKits;
 }
 
-async function importKitToStrateegia(token: string, element: HTMLElement) {
-    const kit = await getById(token, element.id);
-    console.log('kit...');
-    console.log(kit);
-    
-    return await addKitToUser(token, kit);
+async function importKitToStrateegia(token: string, element: HTMLElement, kits: any) {
+    const kitToImport = kits.filter((kit: any) => {
+        return kit.id == element.id;
+    })[0];
+
+    return await addKitToUser(token, kitToImport);
 }
 
 export { getMyKits, importKitToStrateegia }
