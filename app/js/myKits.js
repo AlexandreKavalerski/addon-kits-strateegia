@@ -18,7 +18,7 @@ function generateMarkupCustomKits(customKits) {
             <p class="card-text">${kit.description}</p>
             <a class="btn btn-primary btnDisponibilizar" id="${
               kit.id
-            }">Disponibilizar</a>
+            }" style="background-color: #45B5A9;border-color: #45B5A9;width: 100%;">Disponibilizar</a>
           </div>
         </div>`;
   }
