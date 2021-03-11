@@ -38,9 +38,10 @@ function addListenerMakeAvailable() {
       element.addEventListener("click", (event) => {
         compartilhador
           .makeKitPublic(event.target, kits)
-          .then((kitSelecionado) => {
+          .then(({ metadata, record }) => {
+            console.log(record);
             alert(
-              `o kit '${kitSelecionado.title}' criado por você agora está disponível para tds!`
+              `o kit '${record.title}' criado por você agora está disponível para tds!`
             );
           });
       });

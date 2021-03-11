@@ -1,9 +1,9 @@
-const APIurl = 'https://api.strateegia.digital/users/v1/auth/signin';
+const API_URL = 'https://api.strateegia.digital/users/v1/auth/signin';
 
 async function auth(username: string, password: string){
     const base64Login = btoa(`${username}:${password}`);    
 
-    const response = await fetch(APIurl, {
+    const response = await fetch(API_URL, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json', 
