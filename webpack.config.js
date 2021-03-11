@@ -20,6 +20,6 @@ module.exports = {
     filename: "main.js",
     library: "compartilhador",
     libraryTarget: "umd",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "app/dist"),
   },
 };
