@@ -41,7 +41,7 @@ function addListenerMakeAvailable() {
           .then(({ metadata, record }) => {
             console.log(record);
             alert(
-              `o kit '${record.title}' criado por você agora está disponível para tds!`
+              `o kit '${record.title}' criado por você agora está disponível para tds`
             );
           });
       });

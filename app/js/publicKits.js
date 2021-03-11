@@ -45,7 +45,7 @@ function addListenerMakeAvailable() {
           .importKitToStrateegia(token, event.target)
           .then((kitSelecionado) => {
             alert(
-              `o kit '${kitSelecionado.title}' criado por você agora está disponível para tds!`
+              `o kit '${kitSelecionado.title}' foi adicionado à sua conta em strateegia`
             );
           });
       });
