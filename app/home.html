@@ -14,9 +14,16 @@
 
     <div class="container">
       <div class="jumbotron">
+        <div class="head-container row">
           <p class="lead">Compartilhador de ferramentas para strateegia.digital</p>
-          <small style="color: red;">tela inicial</small>
+          <div class="left col-6">
+            <small style="color: red;">tela inicial</small>
+          </div>
+          <div class="right col-6">
+            <small class="float-right" id="btnSair" style="color: blueviolet; cursor: pointer;">sair</small>
+          </div>
           <hr class="my-2">
+        </div>
 
           <div class="container-fluid d-flex flex-wrap">
 
@@ -46,21 +53,7 @@
     
 
     <script type="module" src="./dist/main.js"></script>
-    <script>
-      const token = localStorage.getItem("strateegia_api_token");
-      console.log(token);
-
-      const btnMinhas = document.getElementById("btnMinhas");
-      btnMinhas?.addEventListener("click", (e) => {
-        if (token) {
-          compartilhador.getMyKits(token).then((customKits)=>{
-            console.log(customKits);
-            localStorage.setItem("strateegia_api_custom_kits",JSON.stringify(customKits));
-            location.href = "./mykits.html";
-          });
-        }
-      });
-    </script>
+    <script src="./js/home.js"></script>
 
 
   </body>
