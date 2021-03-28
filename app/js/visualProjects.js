@@ -1,6 +1,6 @@
 let svg = d3.select("svg");
-let width = +svg.node().getBoundingClientRect().width;
-let height = +svg.node().getBoundingClientRect().height;
+let width = 600;//+svg.node().getBoundingClientRect().width;
+let height = 600;//+svg.node().getBoundingClientRect().height;
 
 // svg objects
 // let link;
@@ -15,7 +15,7 @@ forceProperties = {
     },
     charge: {
         enabled: true,
-        strength: -12.8,
+        strength: -30,
         distanceMin: 1,
         distanceMax: 387.8
     },
@@ -23,22 +23,22 @@ forceProperties = {
         enabled: false,
         strength: .6,
         iterations: 10,
-        radius: 3
+        radius: 10
     },
     forceX: {
-        enabled: true,
+        enabled: false,
         strength: .1,
         x: .5
     },
     forceY: {
-        enabled: true,
+        enabled: false,
         strength: .1,
         y: .5
     },
     link: {
         enabled: true,
-        distance: 41,
-        iterations: 3
+        distance: 35,
+        iterations: 5
     }
 }
 
@@ -106,6 +106,10 @@ function updateForces() {
 
 // generate the svg objects and force simulation
 function buildGraph() {
+    d3.select('svg')
+    .style("width", width + 'px')
+    .style("height", height + 'px');
+
     const color = d3.scaleOrdinal()
         .domain(["projetos", "mapas", "ferramentas", "questões", "respostas"])
         .range(["#e41a1c", "#377eb8", "#4daf4a", "#984ea3", "#ff7f00"]);
@@ -125,19 +129,21 @@ function buildGraph() {
         .append("g")
         .attr("class", "nodes");
 
+    let base_size = 3;
+
     nodeEnder = nodeEnter
         .append("circle")
         .attr("r", function (d) {
             if (d.group == "projetos") {
-                return 7;
+                return base_size + 7;
             } else if (d.group == "mapas") {
-                return 6;
+                return base_size + 6;
             } else if (d.group == "ferramentas") {
-                return 5;
+                return base_size + 5;
             } else if (d.group == "questões") {
-                return 4;
+                return base_size + 4;
             } else {
-                return 2;
+                return base_size + 2;
             }
         })
         .attr("fill", function (d) { return color(d.group); });
