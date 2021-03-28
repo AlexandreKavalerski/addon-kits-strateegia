@@ -123,17 +123,13 @@ function buildGraph() {
         .data(consolidated_data.nodes);
 
     // set the data and properties of link lines
-    d3.select('svg')
-        .selectAll("line.links")
-        .data(consolidated_data.links)
+    links_selection
         .enter()
         .append("line")
         .attr("class", "links")
         .style("stroke", "#aaa");
 
-    const nodeEnter = d3.select('svg')
-        .selectAll("g.nodes")
-        .data(consolidated_data.nodes)
+    const nodeEnter = nodes_selection
         .enter()
         .append("g")
         .attr("class", "nodes");
@@ -179,7 +175,6 @@ function buildGraph() {
     // node tooltip
     nodeEnter.append("title")
         .text(function (d) { return d.title; });
-
 
     links_selection.exit().remove();
     nodes_selection.exit().remove();
