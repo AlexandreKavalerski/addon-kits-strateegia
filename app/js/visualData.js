@@ -58,11 +58,12 @@ let inter_data;
 //         addMarkup(markup, labs);
 //     });
 
-let begin = 0;
-
-getAllProjects(access_token).then(response => {
-    let projectId = response[0].projects[0].id;
-    // console.log(projectId);
+function drawProject(projectId) {
+    console.log(projectId);
+    consolidated_data = {
+        "nodes": [],
+        "links": []
+    }
     getProjectById(access_token, projectId).then(response => {
         // console.log(response.missions[0]);
         let missionId = response.missions[0].id;
@@ -108,9 +109,47 @@ getAllProjects(access_token).then(response => {
             }
         });
     });
+}
+
+getAllProjects(access_token).then(labs => {
+    console.log(labs);
+    // Initial project
+    drawProject(labs[0].projects[0].id)
+    let listProjects = [];
+    for (let i = 0; i < labs.length; i++) {
+        let currentLab = labs[i];
+        if (currentLab.lab.name == null) {
+            currentLab.lab.name = "Personal";
+        }
+        for (let j = 0; j < currentLab.projects.length; j++) {
+            const project = currentLab.projects[j];
+            console.log(`${currentLab.lab.name} -> ${project.title}`);
+            listProjects.push({
+                "id": project.id,
+                "title": project.title,
+                "lab_id": currentLab.lab.id,
+                "lab_title": currentLab.lab.name
+            });
+        }
+    }
+    let options = d3.select("#projects-list")
+        .on("change", () => {
+            let selected_project = d3.select("#projects-list").property('value');
+            drawProject(selected_project);
+        })
+        .selectAll("option")
+        .data(listProjects);
+
+    options.enter()
+        .append("option")
+        .attr("value", (d) => { return d.id })
+        .text((d) => { return `${d.lab_title} -> ${d.title}` });
 });
 
-
+// document.addEventListener("DOMContentLoaded", function () {
+//     let selected_project = d3.select("#projects-list").property('value');
+//     drawProject(selected_project);
+// });
 
 function addMarkup(markup, projects) {
     const container = document.getElementById("listProjects");

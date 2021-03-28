@@ -107,12 +107,21 @@ function updateForces() {
 // generate the svg objects and force simulation
 function buildGraph() {
     d3.select('svg')
-    .style("width", width + 'px')
-    .style("height", height + 'px');
+        .style("width", width + 'px')
+        .style("height", height + 'px');
 
     const color = d3.scaleOrdinal()
         .domain(["projetos", "mapas", "ferramentas", "questões", "respostas"])
         .range(["#e41a1c", "#377eb8", "#4daf4a", "#984ea3", "#ff7f00"]);
+
+    let links_selection = d3.select('svg')
+        .selectAll("line.links")
+        .data(consolidated_data.links);
+
+    let nodes_selection = d3.select('svg')
+        .selectAll("g.nodes")
+        .data(consolidated_data.nodes);
+
     // set the data and properties of link lines
     d3.select('svg')
         .selectAll("line.links")
@@ -120,7 +129,7 @@ function buildGraph() {
         .enter()
         .append("line")
         .attr("class", "links")
-        .style("stroke", "#aaa")
+        .style("stroke", "#aaa");
 
     const nodeEnter = d3.select('svg')
         .selectAll("g.nodes")
@@ -148,6 +157,7 @@ function buildGraph() {
         })
         .attr("fill", function (d) { return color(d.group); });
 
+
     const drag = d3.drag()
         .on("start", dragstarted)
         .on("drag", dragged)
@@ -169,6 +179,10 @@ function buildGraph() {
     // node tooltip
     nodeEnter.append("title")
         .text(function (d) { return d.title; });
+
+
+    links_selection.exit().remove();
+    nodes_selection.exit().remove();
 
     // visualize the data
     updateDisplay();
