@@ -178,7 +178,8 @@ function buildGraph() {
 function updateDisplay() {
     d3.selectAll("line.links")
         .attr("stroke-width", forceProperties.link.enabled ? 1 : .5)
-        .attr("opacity", forceProperties.link.enabled ? 1 : 0);
+        .attr("opacity", forceProperties.link.enabled ? 1 : 0)
+        .lower();
 }
 
 // update the display positions after each simulation tick
