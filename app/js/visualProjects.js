@@ -1,4 +1,4 @@
-let svg = d3.select("svg");
+const svg = d3.select("svg");
 let width = 600;//+svg.node().getBoundingClientRect().width;
 let height = 600;//+svg.node().getBoundingClientRect().height;
 
@@ -21,9 +21,9 @@ forceProperties = {
     },
     collide: {
         enabled: false,
-        strength: .6,
+        strength: .7,
         iterations: 10,
-        radius: 10
+        radius: 15
     },
     forceX: {
         enabled: false,
@@ -106,6 +106,7 @@ function updateForces() {
 
 // generate the svg objects and force simulation
 function buildGraph() {
+    simulation.stop();
     d3.select('svg')
         .style("width", width + 'px')
         .style("height", height + 'px');
@@ -129,15 +130,22 @@ function buildGraph() {
         .attr("class", "links")
         .style("stroke", "#aaa");
 
-    let nodeEnter = nodes_selection
+    let node_group = nodes_selection
         .enter()
         .append("g")
         .attr("class", "nodes");
 
     let base_size = 3;
 
-    nodeEnder = nodeEnter
+    let t = d3.transition()
+        .duration(1000)
+        .ease(d3.easeLinear);
+
+    let node_circle = node_group
         .append("circle")
+        .attr("fill", "white")
+        .attr("r", 0)
+        .transition(t)
         .attr("r", function (d) {
             if (d.group == "projetos") {
                 return base_size + 7;
@@ -153,17 +161,7 @@ function buildGraph() {
         })
         .attr("fill", function (d) { return color(d.group); });
 
-
-    const drag = d3.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended);
-
-    nodeEnter.call(drag)
-        .on("mouseover", focus)
-        .on("mouseout", unfocus);
-
-    nodeEnter
+    node_group
         .append("text")
         .text(function (d) {
             return d.title;
@@ -173,8 +171,17 @@ function buildGraph() {
         .style("display", "none");
 
     // node tooltip
-    nodeEnter.append("title")
+    node_group.append("title")
         .text(function (d) { return d.title; });
+
+    const drag = d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
+
+    node_group.call(drag)
+        .on("mouseover", focus)
+        .on("mouseout", unfocus);
 
     links_selection.exit().remove();
     nodes_selection.exit().remove();
