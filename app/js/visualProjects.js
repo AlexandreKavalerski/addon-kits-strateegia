@@ -114,13 +114,13 @@ function buildGraph() {
         .domain(["projetos", "mapas", "ferramentas", "questões", "respostas"])
         .range(["#e41a1c", "#377eb8", "#4daf4a", "#984ea3", "#ff7f00"]);
 
+    let nodes_selection = d3.select('svg')
+        .selectAll("g.nodes")
+        .data(consolidated_data.nodes, d => d.id);
+
     let links_selection = d3.select('svg')
         .selectAll("line.links")
         .data(consolidated_data.links);
-
-    let nodes_selection = d3.select('svg')
-        .selectAll("g.nodes")
-        .data(consolidated_data.nodes);
 
     // set the data and properties of link lines
     links_selection
@@ -129,7 +129,7 @@ function buildGraph() {
         .attr("class", "links")
         .style("stroke", "#aaa");
 
-    const nodeEnter = nodes_selection
+    let nodeEnter = nodes_selection
         .enter()
         .append("g")
         .attr("class", "nodes");

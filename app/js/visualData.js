@@ -64,50 +64,59 @@ function drawProject(projectId) {
         "nodes": [],
         "links": []
     }
-    getProjectById(access_token, projectId).then(response => {
-        // console.log(response.missions[0]);
-        let missionId = response.missions[0].id;
-        let missionTitle = response.missions[0].title;
-        let missionCreatedAt = response.missions[0].created_at;
-        addNode(missionId, missionTitle, "mapas", missionCreatedAt);
-        // console.log(missionId + " -> " + missionTitle);
-        getAllContentsByMissionId(access_token, missionId).then(response => {
-            // console.log(response);
-            let arrayContents = response.content;
-            for (let i = 0; i < arrayContents.length; i++) {
-                const contentId = arrayContents[i].id;
-                const missionId = arrayContents[i].mission_id;
-                const kitId = arrayContents[i].kit.id;
-                const kitTitle = arrayContents[i].kit.title;
-                const kitCreatedAt = arrayContents[i].kit.created_at;
-                addNode(kitId, kitTitle, "ferramentas", kitCreatedAt);
-                addLink(missionId, kitId);
-                const arrayQuestions = arrayContents[i].kit.questions;
-                for (let j = 0; j < arrayQuestions.length; j++) {
-                    const questionId = arrayQuestions[j].id;
-                    const questionText = arrayQuestions[j].question;
-                    const questionCreatedAt = arrayQuestions[j].created_at;
-                    addNode(questionId, questionText, "questões", questionCreatedAt);
-                    addLink(kitId, questionId);
-                    getParentComments(access_token, contentId, questionId).then(response => {
-                        // console.log(response);
-                        let arrayComments = response.content;
-                        for (let k = 0; k < arrayComments.length; k++) {
-                            const questionId = arrayComments[k].question_id;
-                            const commentId = arrayComments[k].id;
-                            const commentText = arrayComments[k].text;
-                            const commentCreatedAt = arrayComments[k].created_at;
-                            // console.log(commentText);
-                            addNode(commentId, commentText, "respostas", commentCreatedAt);
-                            addLink(questionId, commentId);
-                        }
-                    }).then(d => {
-                        buildGraph(consolidated_data);
-                        initializeSimulation(consolidated_data);
-                    });
-                }
+    getProjectById(access_token, projectId).then(project => {
+        console.log(project);
+        if(project.missions.length > 1){
+            addNode(project.id, project.title, "projetos",project.created_at);
+        }
+        for (let a = 0; a < project.missions.length; a++) {
+            const currentMission = project.missions[a];
+            let missionId = project.missions[a].id;
+            let missionTitle = project.missions[a].title;
+            let missionCreatedAt = project.missions[a].created_at;
+            addNode(missionId, missionTitle, "mapas", missionCreatedAt);
+            if(project.missions.length > 1){
+                addLink(project.id, missionId);
             }
-        });
+            // console.log(missionId + " -> " + missionTitle);
+            getAllContentsByMissionId(access_token, missionId).then(response => {
+                // console.log(response);
+                let arrayContents = response.content;
+                for (let i = 0; i < arrayContents.length; i++) {
+                    const contentId = arrayContents[i].id;
+                    const missionId = arrayContents[i].mission_id;
+                    const kitId = arrayContents[i].kit.id;
+                    const kitTitle = arrayContents[i].kit.title;
+                    const kitCreatedAt = arrayContents[i].kit.created_at;
+                    addNode(kitId, kitTitle, "ferramentas", kitCreatedAt);
+                    addLink(missionId, kitId);
+                    const arrayQuestions = arrayContents[i].kit.questions;
+                    for (let j = 0; j < arrayQuestions.length; j++) {
+                        const questionId = arrayQuestions[j].id;
+                        const questionText = arrayQuestions[j].question;
+                        const questionCreatedAt = arrayQuestions[j].created_at;
+                        addNode(questionId, questionText, "questões", questionCreatedAt);
+                        addLink(kitId, questionId);
+                        getParentComments(access_token, contentId, questionId).then(response => {
+                            // console.log(response);
+                            let arrayComments = response.content;
+                            for (let k = 0; k < arrayComments.length; k++) {
+                                const questionId = arrayComments[k].question_id;
+                                const commentId = arrayComments[k].id;
+                                const commentText = arrayComments[k].text;
+                                const commentCreatedAt = arrayComments[k].created_at;
+                                // console.log(commentText);
+                                addNode(commentId, commentText, "respostas", commentCreatedAt);
+                                addLink(questionId, commentId);
+                            }
+                        }).then(d => {
+                            buildGraph(consolidated_data);
+                            initializeSimulation(consolidated_data);
+                        });
+                    }
+                }
+            });
+        }
     });
 }
 
