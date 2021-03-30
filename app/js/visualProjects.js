@@ -23,7 +23,7 @@ forceProperties = {
         enabled: false,
         strength: .7,
         iterations: 10,
-        radius: 15
+        radius: 10
     },
     forceX: {
         enabled: false,
@@ -137,7 +137,6 @@ function buildGraph() {
         .append("g")
         .attr("class", "nodes");
 
-
     let base_size = 3;
 
     let t = d3.transition()
@@ -172,6 +171,9 @@ function buildGraph() {
         .attr('x', 6)
         .attr('y', 3)
         .style("display", "none");
+
+    node_group
+        .attr("cursor", "grab");
 
     // node tooltip
     node_group.append("title")
@@ -212,7 +214,7 @@ function ticked() {
     d3.selectAll("g.nodes")
         .attr("transform", function (d) {
             return "translate(" + d.x + "," + d.y + ")";
-        })
+        });
     // .attr("cx", function(d) { return d.x; })
     // .attr("cy", function(d) { return d.y; });
 
@@ -227,6 +229,7 @@ function dragstarted(event, d) {
     }
     d.fx = d.x;
     d.fy = d.y;
+    d3.selectAll("g.nodes").attr("cursor", "grabbing");
 }
 
 function dragged(event, d) {
@@ -238,6 +241,7 @@ function dragended(event, d) {
     if (!event.active) simulation.alphaTarget(0.0001);
     d.fx = null;
     d.fy = null;
+    d3.selectAll("g.nodes").attr("cursor", "grab");
 }
 
 function focus(event, d) {

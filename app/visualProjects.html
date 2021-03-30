@@ -1,45 +1,54 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   </script>
-    <title>Visualização de Projetos</title>
-  </head>
-  <body>
+  <title>Visualização de Projetos</title>
+</head>
 
-    <div class="container">
-      <div class="jumbotron">
-          <p class="lead">Visualização de projetos para strateegia.digital</p>
-          <small style="color: red;"><a href="./home.html">tela inicial</a> | minhas ferramentas</small>
-          <hr class="my-2">
+<body>
 
-          <div class="container-fluid d-flex flex-wrap" id="projects-container">
-            selecione abaixo o projeto que deseja visualizar  
-            <select class="form-select" aria-label="Default select example" id="projects-list">
-                
-              </select>
-              <svg></svg>
-          </div>
+  <div class="container">
+    <div class="jumbotron">
+      <p class="lead">Visualização de projetos para strateegia.digital</p>
+      <small style="color: red;"><a href="./home.html">tela inicial</a> | minhas ferramentas</small>
+      <hr class="my-2">
 
+      <div class="container-fluid d-flex flex-wrap" id="projects-container">
+        selecione abaixo o projeto que deseja visualizar
+        <select class="form-select" aria-label="Default select example" id="projects-list">
 
+        </select>
+        <div style="text-align:center;">
+          <svg></svg>
+        </div>
+        </span>
       </div>
+
+
     </div>
+  </div>
 
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-    
 
-    <script type="module" src="./dist/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"></script>
 
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="./js/visualStrateegiaAPI.js"></script>
-    <script src="./js/visualProjects.js"></script>
-    <script src="./js/visualData.js"></script>
 
-  </body>
+  <script type="module" src="./dist/main.js"></script>
+
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script src="./js/visualStrateegiaAPI.js"></script>
+  <script src="./js/visualProjects.js"></script>
+  <script src="./js/visualData.js"></script>
+
+</body>
+
 </html>
