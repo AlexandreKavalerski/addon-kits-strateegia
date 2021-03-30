@@ -24,15 +24,21 @@
       <div class="container-fluid d-flex flex-wrap" id="projects-container">
         selecione abaixo o projeto que deseja visualizar
         <select class="form-select" aria-label="Default select example" id="projects-list">
-
         </select>
-        <div style="text-align:center;">
+        <label for="time_ticks" class="form-label">Escolha o dia</label>
+        <input type="range" class="form-range" id="time_ticks">
+        <div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              Default checkbox
+            </label>
+          </div>
+          <label><input type="checkbox" checked="" onchange="myCheckBox(this.checked)"> link</label>
           <svg></svg>
         </div>
         </span>
       </div>
-
-
     </div>
   </div>
 

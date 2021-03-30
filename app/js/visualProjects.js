@@ -1,6 +1,6 @@
 const svg = d3.select("svg");
-let width = 1000;//+svg.node().getBoundingClientRect().width;
-let height = 600;//+svg.node().getBoundingClientRect().height;
+let width = 1000; //+svg.node().getBoundingClientRect().width;
+let height = 600; //+svg.node().getBoundingClientRect().height;
 
 // svg objects
 // let link;
@@ -66,11 +66,11 @@ function initializeForces(data_nodes, data_links) {
         .force("forceX", d3.forceX())
         .force("forceY", d3.forceY());
     // apply properties to each of the forces
-    updateForces(data_nodes, data_links);
+    updateForces(data_links);
 }
 
 // apply new force properties
-function updateForces(data_nodes, data_links) {
+function updateForces(data_links) {
     // get each force by name and update the properties
     simulation.force("center")
         .x(width * forceProperties.center.x)
@@ -90,7 +90,7 @@ function updateForces(data_nodes, data_links) {
         .strength(forceProperties.forceY.strength * forceProperties.forceY.enabled)
         .y(height * forceProperties.forceY.y);
     simulation.force("link")
-        .id(function (d) { return d.id; })
+        .id(function(d) { return d.id; })
         .distance(forceProperties.link.distance)
         .iterations(forceProperties.link.iterations)
         .links(forceProperties.link.enabled ? data_links : []);
@@ -147,7 +147,7 @@ function buildGraph(data_nodes, data_links) {
         .attr("fill", "white")
         .attr("r", 0)
         .transition(t)
-        .attr("r", function (d) {
+        .attr("r", function(d) {
             if (d.group == "projetos") {
                 return base_size + 7;
             } else if (d.group == "mapas") {
@@ -160,11 +160,11 @@ function buildGraph(data_nodes, data_links) {
                 return base_size + 2;
             }
         })
-        .attr("fill", function (d) { return color(d.group); });
+        .attr("fill", function(d) { return color(d.group); });
 
     node_group
         .append("text")
-        .text(function (d) {
+        .text(function(d) {
             return d.title;
         })
         .attr('x', 6)
@@ -176,7 +176,7 @@ function buildGraph(data_nodes, data_links) {
 
     // node tooltip
     node_group.append("title")
-        .text(function (d) { return d.title; });
+        .text(function(d) { return d.title; });
 
     const drag = d3.drag()
         .on("start", dragstarted)
@@ -205,13 +205,13 @@ function updateDisplay() {
 // update the display positions after each simulation tick
 function ticked() {
     d3.selectAll("line.links")
-        .attr("x1", function (d) { return d.source.x; })
-        .attr("y1", function (d) { return d.source.y; })
-        .attr("x2", function (d) { return d.target.x; })
-        .attr("y2", function (d) { return d.target.y; });
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
 
     d3.selectAll("g.nodes")
-        .attr("transform", function (d) {
+        .attr("transform", function(d) {
             return "translate(" + d.x + "," + d.y + ")";
         });
     // .attr("cx", function(d) { return d.x; })
@@ -247,7 +247,7 @@ function focus(event, d) {
     d3.selectAll("g.nodes")
         .selectAll("text")
         .style("display",
-            function (o) {
+            function(o) {
                 return o.id == d.id ? "block" : "none";
             });
 }
@@ -259,19 +259,35 @@ function unfocus(d) {
 }
 
 // update size-related forces
-d3.select(window).on("resize", function () {
+d3.select(window).on("resize", function() {
     width = +svg.node().getBoundingClientRect().width;
     height = +svg.node().getBoundingClientRect().height;
-    updateForces();
+    updateForces(consolidated_data.links);
 });
 
-d3.select(window).on("load", function () {
+d3.select(window).on("load", function() {
 
 });
 
-function updateAll() {
-    updateForces();
+function calcTime(data_nodes) {
+    let times = d3.scaleTime()
+        .domain([d3.min(data_nodes, d => d.created_at), d3.max(data_nodes, d => d.created_at)])
+        .ticks(1000)
+        .filter(time => data_nodes.some(d => contains(d.created_at, time)));
+
+    const contains = (created_at, time) => created_at <= time;
+    return times;
+}
+
+function updateAll(data_links) {
+    updateForces(data_links);
     updateDisplay();
 }
 
-
+function myCheckBox(checked){
+    forceProperties.link.enabled = checked;
+    let filteredNodes = consolidated_data.nodes.filter((d) => {return d.group == "mapas"});
+    let filteredLinks = consolidated_data.links;
+    buildGraph(filteredNodes, filteredLinks);
+    updateAll(consolidated_data.links);
+}
