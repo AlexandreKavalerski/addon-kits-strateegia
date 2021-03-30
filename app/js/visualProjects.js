@@ -1,5 +1,5 @@
 const svg = d3.select("svg");
-let width = 600;//+svg.node().getBoundingClientRect().width;
+let width = 1000;//+svg.node().getBoundingClientRect().width;
 let height = 600;//+svg.node().getBoundingClientRect().height;
 
 // svg objects
@@ -107,9 +107,11 @@ function updateForces() {
 // generate the svg objects and force simulation
 function buildGraph() {
     simulation.stop();
-    d3.select('svg')
+    d3.select("svg")
         .style("width", width + 'px')
-        .style("height", height + 'px');
+        .style("height", height + 'px')
+
+    svg.attr("viewBox", [0, 0, width, height]);
 
     const color = d3.scaleOrdinal()
         .domain(["projetos", "mapas", "ferramentas", "questões", "respostas"])
@@ -134,6 +136,7 @@ function buildGraph() {
         .enter()
         .append("g")
         .attr("class", "nodes");
+
 
     let base_size = 3;
 
