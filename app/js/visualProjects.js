@@ -48,15 +48,15 @@ forceProperties = {
 const simulation = d3.forceSimulation();
 
 // set up the simulation and event to update locations after each tick
-function initializeSimulation() {
-    simulation.nodes(consolidated_data.nodes);
-    initializeForces();
+function initializeSimulation(data_nodes, data_links) {
+    simulation.nodes(data_nodes);
+    initializeForces(data_nodes, data_links);
     simulation.alpha(2).restart();
     simulation.on("tick", ticked);
 }
 
 // add forces to the simulation
-function initializeForces() {
+function initializeForces(data_nodes, data_links) {
     // add forces and associate each with a name
     simulation
         .force("link", d3.forceLink())
@@ -66,11 +66,11 @@ function initializeForces() {
         .force("forceX", d3.forceX())
         .force("forceY", d3.forceY());
     // apply properties to each of the forces
-    updateForces();
+    updateForces(data_nodes, data_links);
 }
 
 // apply new force properties
-function updateForces() {
+function updateForces(data_nodes, data_links) {
     // get each force by name and update the properties
     simulation.force("center")
         .x(width * forceProperties.center.x)
@@ -93,7 +93,7 @@ function updateForces() {
         .id(function (d) { return d.id; })
         .distance(forceProperties.link.distance)
         .iterations(forceProperties.link.iterations)
-        .links(forceProperties.link.enabled ? consolidated_data.links : []);
+        .links(forceProperties.link.enabled ? data_links : []);
 
     // updates ignored until this is run
     // restarts the simulation (important if simulation has already slowed down)
@@ -105,13 +105,12 @@ function updateForces() {
 // color = d3.scaleOrdinal(d3.schemeCategory10);
 
 // generate the svg objects and force simulation
-function buildGraph() {
+function buildGraph(data_nodes, data_links) {
     simulation.stop();
     d3.select("svg")
         .style("width", width + 'px')
         .style("height", height + 'px')
-
-    svg.attr("viewBox", [0, 0, width, height]);
+        .attr("viewBox", [0, 0, width, height]);
 
     const color = d3.scaleOrdinal()
         .domain(["projetos", "mapas", "ferramentas", "questões", "respostas"])
@@ -119,11 +118,11 @@ function buildGraph() {
 
     let nodes_selection = d3.select('svg')
         .selectAll("g.nodes")
-        .data(consolidated_data.nodes, d => d.id);
+        .data(data_nodes, d => d.id);
 
     let links_selection = d3.select('svg')
         .selectAll("line.links")
-        .data(consolidated_data.links);
+        .data(data_links);
 
     // set the data and properties of link lines
     links_selection

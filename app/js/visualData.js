@@ -111,8 +111,8 @@ function drawProject(projectId) {
                                 addLink(questionId_graph, commentId);
                             }
                         }).then(d => {
-                            buildGraph(consolidated_data);
-                            initializeSimulation(consolidated_data);
+                            buildGraph(consolidated_data.nodes, consolidated_data.links);
+                            initializeSimulation(consolidated_data.nodes, consolidated_data.links);
                         });
                     }
                 }
