@@ -92,11 +92,12 @@ function drawProject(projectId) {
                     addLink(missionId, contentId);
                     const arrayQuestions = arrayContents[i].kit.questions;
                     for (let j = 0; j < arrayQuestions.length; j++) {
-                        const questionId = `${arrayQuestions[j].id}.${contentId}`;
+                        const questionId = arrayQuestions[j].id;
+                        const questionId_graph = `${arrayQuestions[j].id}.${contentId}`;
                         const questionText = arrayQuestions[j].question;
                         const questionCreatedAt = arrayQuestions[j].created_at;
-                        addNode(questionId, questionText, "questões", questionCreatedAt);
-                        addLink(contentId, questionId);
+                        addNode(questionId_graph, questionText, "questões", questionCreatedAt);
+                        addLink(contentId, questionId_graph);
                         getParentComments(access_token, contentId, questionId).then(response => {
                             // console.log(response);
                             let arrayComments = response.content;
@@ -107,7 +108,7 @@ function drawProject(projectId) {
                                 const commentCreatedAt = arrayComments[k].created_at;
                                 // console.log(commentText);
                                 addNode(commentId, commentText, "respostas", commentCreatedAt);
-                                addLink(questionId, commentId);
+                                addLink(questionId_graph, commentId);
                             }
                         }).then(d => {
                             buildGraph(consolidated_data);
