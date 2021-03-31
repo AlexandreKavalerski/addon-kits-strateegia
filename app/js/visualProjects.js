@@ -285,8 +285,11 @@ function updateAll(data_links) {
 }
 
 function myCheckBox(checked){
-    forceProperties.link.enabled = checked;
-    let filteredNodes = consolidated_data.nodes.filter((d) => {return d.group == "mapas"});
+    // forceProperties.link.enabled = checked;
+    let filteredNodes = consolidated_data.nodes;
+    if(checked){
+        filteredNodes = consolidated_data.nodes.filter((d) => {return d.group == "mapas"});
+    }
     let filteredLinks = consolidated_data.links;
     buildGraph(filteredNodes, filteredLinks);
     updateAll(consolidated_data.links);
