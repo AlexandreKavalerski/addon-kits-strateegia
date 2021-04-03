@@ -90,7 +90,7 @@ function updateForces(data_links) {
         .strength(forceProperties.forceY.strength * forceProperties.forceY.enabled)
         .y(height * forceProperties.forceY.y);
     simulation.force("link")
-        .id(function(d) { return d.id; })
+        .id(function (d) { return d.id; })
         .distance(forceProperties.link.distance)
         .iterations(forceProperties.link.iterations)
         .links(forceProperties.link.enabled ? data_links : []);
@@ -147,7 +147,7 @@ function buildGraph(data_nodes, data_links) {
         .attr("fill", "white")
         .attr("r", 0)
         .transition(t)
-        .attr("r", function(d) {
+        .attr("r", function (d) {
             if (d.group == "projetos") {
                 return base_size + 7;
             } else if (d.group == "mapas") {
@@ -160,11 +160,11 @@ function buildGraph(data_nodes, data_links) {
                 return base_size + 2;
             }
         })
-        .attr("fill", function(d) { return color(d.group); });
+        .attr("fill", function (d) { return color(d.group); });
 
     node_group
         .append("text")
-        .text(function(d) {
+        .text(function (d) {
             return d.title;
         })
         .attr('x', 6)
@@ -176,7 +176,7 @@ function buildGraph(data_nodes, data_links) {
 
     // node tooltip
     node_group.append("title")
-        .text(function(d) { return d.title; });
+        .text(function (d) { return d.title; });
 
     const drag = d3.drag()
         .on("start", dragstarted)
@@ -205,13 +205,13 @@ function updateDisplay() {
 // update the display positions after each simulation tick
 function ticked() {
     d3.selectAll("line.links")
-        .attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
+        .attr("x1", function (d) { return d.source.x; })
+        .attr("y1", function (d) { return d.source.y; })
+        .attr("x2", function (d) { return d.target.x; })
+        .attr("y2", function (d) { return d.target.y; });
 
     d3.selectAll("g.nodes")
-        .attr("transform", function(d) {
+        .attr("transform", function (d) {
             return "translate(" + d.x + "," + d.y + ")";
         });
     // .attr("cx", function(d) { return d.x; })
@@ -247,7 +247,7 @@ function focus(event, d) {
     d3.selectAll("g.nodes")
         .selectAll("text")
         .style("display",
-            function(o) {
+            function (o) {
                 return o.id == d.id ? "block" : "none";
             });
 }
@@ -259,13 +259,13 @@ function unfocus(d) {
 }
 
 // update size-related forces
-d3.select(window).on("resize", function() {
+d3.select(window).on("resize", function () {
     width = +svg.node().getBoundingClientRect().width;
     height = +svg.node().getBoundingClientRect().height;
     updateForces(consolidated_data.links);
 });
 
-d3.select(window).on("load", function() {
+d3.select(window).on("load", function () {
 
 });
 
@@ -284,13 +284,26 @@ function updateAll(data_links) {
     updateDisplay();
 }
 
-function myCheckBox(checked){
+function myCheckBox(checked) {
     // forceProperties.link.enabled = checked;
     let filteredNodes = consolidated_data.nodes;
-    if(checked){
-        filteredNodes = consolidated_data.nodes.filter((d) => {return d.group == "mapas"});
+    if (checked) {
+        filteredNodes = consolidated_data.nodes.filter((d) => { return d.group == "mapas" });
     }
     let filteredLinks = consolidated_data.links;
     buildGraph(filteredNodes, filteredLinks);
     updateAll(consolidated_data.links);
+    console.log(consolidated_data);
+}
+
+function debug() {
+    const created_at = new Date("2021-03-10T10:54:18.225");
+    const created_at2 = new Date("2021-03-10T10:54:18.225");
+    let parsedTime = d3.timeFormat("%Y-%m-%dT%H:%M:%S.%L");
+    console.log(parsedTime(created_at) == parsedTime(created_at2));
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(consolidated_data));
+    var dlAnchorElem = document.getElementById('downloadAnchorElem');
+    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("download", "scene.json");
+    dlAnchorElem.click();
 }

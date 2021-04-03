@@ -55,12 +55,13 @@ let inter_data;
 //     });
 
 function drawProject(projectId) {
-    console.log(projectId);
+    // console.log(projectId);
     consolidated_data = {
         "nodes": [],
         "links": []
     }
     getProjectById(access_token, projectId).then(project => {
+        console.log("getProjectById()")
         console.log(project);
         if (project.missions.length > 1) {
             addNode(project.id, project.title, "projetos", project.created_at);
@@ -76,6 +77,7 @@ function drawProject(projectId) {
             }
             // console.log(missionId + " -> " + missionTitle);
             getAllContentsByMissionId(access_token, missionId).then(response => {
+                console.log("getAllContentsByMissionId()")
                 console.log(response);
                 let arrayContents = response.content;
                 for (let i = 0; i < arrayContents.length; i++) {
@@ -95,7 +97,8 @@ function drawProject(projectId) {
                         addNode(questionId_graph, questionText, "questões", questionCreatedAt);
                         addLink(contentId, questionId_graph);
                         getParentComments(access_token, contentId, questionId).then(response => {
-                            // console.log(response);
+                            console.log("getParentComments()")
+                            console.log(response);
                             let arrayComments = response.content;
                             for (let k = 0; k < arrayComments.length; k++) {
                                 const questionId = arrayComments[k].question_id;
@@ -119,6 +122,7 @@ function drawProject(projectId) {
 }
 
 getAllProjects(access_token).then(labs => {
+    console.log("getAllProjects()");
     console.log(labs);
     // Initial project
     drawProject(labs[0].projects[0].id)

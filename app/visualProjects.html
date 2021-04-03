@@ -29,13 +29,14 @@
         <input type="range" class="form-range" id="time_ticks">
         <div>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onchange="debug()">
             <label class="form-check-label" for="flexCheckDefault">
-              Default checkbox
+              Debug
             </label>
           </div>
           <label><input type="checkbox" checked="" onchange="myCheckBox(this.checked)"> link</label>
           <svg></svg>
+          <a id="downloadAnchorElem" style="display:none"></a>
         </div>
         </span>
       </div>
