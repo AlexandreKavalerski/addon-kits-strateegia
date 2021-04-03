@@ -97,7 +97,8 @@ function updateForces(data_links) {
 
     // updates ignored until this is run
     // restarts the simulation (important if simulation has already slowed down)
-    simulation.alpha(2).restart();
+    // simulation.alpha(2).restart();
+    simulation.alpha(0.2).restart();
 }
 
 //////////// DISPLAY ////////////
@@ -139,7 +140,7 @@ function buildGraph(data_nodes, data_links) {
     let base_size = 3;
 
     let t = d3.transition()
-        .duration(1000)
+        .duration(500)
         .ease(d3.easeLinear);
 
     let node_circle = node_group
@@ -269,16 +270,6 @@ d3.select(window).on("load", function () {
 
 });
 
-function calcTime(data_nodes) {
-    let times = d3.scaleTime()
-        .domain([d3.min(data_nodes, d => d.created_at), d3.max(data_nodes, d => d.created_at)])
-        .ticks(1000)
-        .filter(time => data_nodes.some(d => contains(d.created_at, time)));
-
-    const contains = (created_at, time) => created_at <= time;
-    return times;
-}
-
 function updateAll(data_links) {
     updateForces(data_links);
     updateDisplay();
@@ -296,14 +287,41 @@ function myCheckBox(checked) {
     console.log(consolidated_data);
 }
 
-function debug() {
-    const created_at = new Date("2021-03-10T10:54:18.225");
-    const created_at2 = new Date("2021-03-10T10:54:18.225");
-    let parsedTime = d3.timeFormat("%Y-%m-%dT%H:%M:%S.%L");
-    console.log(parsedTime(created_at) == parsedTime(created_at2));
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(consolidated_data));
-    var dlAnchorElem = document.getElementById('downloadAnchorElem');
-    dlAnchorElem.setAttribute("href", dataStr);
-    dlAnchorElem.setAttribute("download", "scene.json");
-    dlAnchorElem.click();
+// function debug() {
+//     const created_at = new Date("2021-03-10T10:54:18.225");
+//     const created_at2 = new Date("2021-03-10T10:54:18.225");
+//     let parsedTime = d3.timeFormat("%Y-%m-%dT%H:%M:%S.%L");
+//     console.log(parsedTime(created_at) == parsedTime(created_at2));
+//     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(consolidated_data));
+//     var dlAnchorElem = document.getElementById('downloadAnchorElem');
+//     dlAnchorElem.setAttribute("href", dataStr);
+//     dlAnchorElem.setAttribute("download", "scene.json");
+//     dlAnchorElem.click();
+// }
+
+function debug(value){
+    // console.log(d3.select("#time_ticks").value());
+    // console.log(value);
+    let times = d3.scaleTime().domain([0,50])
+      .range([d3.min(consolidated_data.nodes, d => d.created_at), d3.max(consolidated_data.nodes, d => d.created_at)]);
+    console.log(times(value));
+    let date_limit = times(value);
+    let filteredNodes = consolidated_data.nodes.filter((d) => { return d.created_at <= date_limit });
+    let filteredLinks = consolidated_data.links.filter((d) => { return nodes_contains(d, filteredNodes)});
+    buildGraph(filteredNodes, filteredLinks);
+    updateAll(filteredLinks);
+
+    function nodes_contains(link, nodes){
+        let source = link.source.id;
+        let target = link.target.id;
+        for (let index = 0; index < nodes.length; index++) {
+            const node_id = nodes[index].id;
+            if(node_id == target){
+                return true;
+            }
+        }
+        return false;
+    }
 }
+
+//   .filter(time => data.nodes.some(d => contains(d, time)))

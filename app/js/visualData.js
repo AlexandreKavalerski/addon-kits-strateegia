@@ -7,11 +7,14 @@ let consolidated_data = {
 }
 
 function addNode(id, title, group, created_at) {
+    let date = new Date(created_at)
+    //let parseTime = d3.timeFormat("%Y-%m-%dT%H:%M:%S.%L");
+    //let parsedDate = parseTime(date);
     consolidated_data["nodes"].push({
         "id": id,
         "title": title,
         "group": group,
-        "created_at": created_at
+        "created_at": date
     });
 }
 
@@ -69,24 +72,31 @@ function drawProject(projectId) {
         for (let a = 0; a < project.missions.length; a++) {
             const currentMission = project.missions[a];
             let missionId = project.missions[a].id;
-            let missionTitle = project.missions[a].title;
-            let missionCreatedAt = project.missions[a].created_at;
-            addNode(missionId, missionTitle, "mapas", missionCreatedAt);
-            if (project.missions.length > 1) {
-                addLink(project.id, missionId);
-            }
+            getMapById(access_token, missionId).then(map_response => {
+                console.log("getMapById()");
+                console.log(map_response);
+                let mapId = map_response.id;
+                let missionTitle = map_response.title;
+                let missionCreatedAt = map_response.created_at;
+                let projectId = map_response.project_id;
+                addNode(mapId, missionTitle, "mapas", missionCreatedAt);
+                if (project.missions.length > 1) {
+                    addLink(projectId, mapId);
+                }
+            });
             // console.log(missionId + " -> " + missionTitle);
             getAllContentsByMissionId(access_token, missionId).then(response => {
                 console.log("getAllContentsByMissionId()")
                 console.log(response);
                 let arrayContents = response.content;
                 for (let i = 0; i < arrayContents.length; i++) {
-                    const contentId = arrayContents[i].id;
                     const missionId = arrayContents[i].mission_id;
+                    const contentId = arrayContents[i].id;
+                    const contentCreatedAt = arrayContents[i].created_at;
                     const kitId = arrayContents[i].kit.id;
                     const kitTitle = arrayContents[i].kit.title;
                     const kitCreatedAt = arrayContents[i].kit.created_at;
-                    addNode(contentId, kitTitle, "ferramentas", kitCreatedAt);
+                    addNode(contentId, kitTitle, "ferramentas", contentCreatedAt);
                     addLink(missionId, contentId);
                     const arrayQuestions = arrayContents[i].kit.questions;
                     for (let j = 0; j < arrayQuestions.length; j++) {
@@ -94,7 +104,7 @@ function drawProject(projectId) {
                         const questionId_graph = `${arrayQuestions[j].id}.${contentId}`;
                         const questionText = arrayQuestions[j].question;
                         const questionCreatedAt = arrayQuestions[j].created_at;
-                        addNode(questionId_graph, questionText, "questões", questionCreatedAt);
+                        addNode(questionId_graph, questionText, "questões", contentCreatedAt);
                         addLink(contentId, questionId_graph);
                         getParentComments(access_token, contentId, questionId).then(response => {
                             console.log("getParentComments()")
