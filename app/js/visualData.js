@@ -116,7 +116,7 @@ function drawProject(projectId) {
                                 const commentText = arrayComments[k].text;
                                 const commentCreatedAt = arrayComments[k].created_at;
                                 // console.log(commentText);
-                                addNode(commentId, commentText, "respostas", commentCreatedAt);
+                                addNode(commentId, commentText, "comentários", commentCreatedAt);
                                 addLink(questionId_graph, commentId);
                             }
                         }).then(d => {
