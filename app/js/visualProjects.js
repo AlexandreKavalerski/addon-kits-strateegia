@@ -59,10 +59,10 @@ function initializeSimulation(data_nodes, data_links) {
 function initializeForces(data_nodes, data_links) {
     // add forces and associate each with a name
     simulation
+        .force("center", d3.forceCenter())  
         .force("link", d3.forceLink())
         .force("charge", d3.forceManyBody())
         .force("collide", d3.forceCollide())
-        .force("center", d3.forceCenter())
         .force("forceX", d3.forceX())
         .force("forceY", d3.forceY());
     // apply properties to each of the forces
@@ -116,6 +116,10 @@ function buildGraph(data_nodes, data_links) {
     const color = d3.scaleOrdinal()
         .domain(["projetos", "mapas", "ferramentas", "questões", "respostas"])
         .range(["#e41a1c", "#377eb8", "#4daf4a", "#984ea3", "#ff7f00"]);
+    
+    const node_size = d3.scaleOrdinal()
+        .domain(["projetos", "mapas", "ferramentas", "questões", "respostas"])
+        .range([5,10]);
 
     let nodes_selection = d3.select('svg')
         .selectAll("g.nodes")
@@ -302,12 +306,27 @@ function myCheckBox(checked) {
 function debug(value){
     // console.log(d3.select("#time_ticks").value());
     // console.log(value);
+
+    let parseTime = d3.timeFormat("%d/%m/%Y - %H:%M:%S");
+
+    // let arrayDates = [];
+
+    // consolidated_data.nodes.forEach(element => {
+    //     if(element.created_at != undefined){
+    //         arrayDates.push(element.created_at);
+    //     }
+    // });
+
+    // console.log(arrayDates);
+    
     let times = d3.scaleTime().domain([0,50])
+    //   .range(new Set(arrayDates.sort()));
       .range([d3.min(consolidated_data.nodes, d => d.created_at), d3.max(consolidated_data.nodes, d => d.created_at)]);
     console.log(times(value));
     let date_limit = times(value);
     let filteredNodes = consolidated_data.nodes.filter((d) => { return d.created_at <= date_limit });
     let filteredLinks = consolidated_data.links.filter((d) => { return nodes_contains(d, filteredNodes)});
+    d3.select("#choose_date").text(parseTime(date_limit))
     buildGraph(filteredNodes, filteredLinks);
     updateAll(filteredLinks);
 
