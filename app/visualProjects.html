@@ -26,15 +26,15 @@
         <select class="form-select" aria-label="Default select example" id="projects-list">
         </select>
         <label for="time_ticks" class="form-label" id="choose_date">Escolha o dia</label>
-        <input type="range" class="form-range" min="0" max="50" step="1" id="time_ticks" onchange="debug(this.value)">
+        <input id="time_ticks" type="range" class="form-range" min="0" max="50" step="0.1" oninput="debug(this.value)" value="50">
         <div>
-          <div class="form-check">
+          <!-- <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onchange="debug()">
             <label class="form-check-label" for="flexCheckDefault">
               Debug
             </label>
-          </div>
-          <label><input type="checkbox" checked="" onchange="myCheckBox(this.checked)"> link</label>
+          </div> -->
+          <!-- <label><input type="checkbox" checked="" onchange="myCheckBox(this.checked)"> link</label> -->
           <svg></svg>
           <a id="downloadAnchorElem" style="display:none"></a>
         </div>

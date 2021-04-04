@@ -59,7 +59,7 @@ function initializeSimulation(data_nodes, data_links) {
 function initializeForces(data_nodes, data_links) {
     // add forces and associate each with a name
     simulation
-        .force("center", d3.forceCenter())  
+        .force("center", d3.forceCenter())
         .force("link", d3.forceLink())
         .force("charge", d3.forceManyBody())
         .force("collide", d3.forceCollide())
@@ -125,9 +125,9 @@ function buildGraph(data_nodes, data_links) {
         // .range(d3.schemePaired);
         // .range(d3.schemeTableau10);
         .range(d3.schemeSet1);
-        // .range(["#0d0887","#5c01a6","#9c179e","#cc4778","#ed7953","#fdb42f","#f0f921"]);
-        // .range(["#eff3ff","#c6dbef","#9ecae1","#6baed6","#4292c6","#2171b5","#084594"]);
-    
+    // .range(["#0d0887","#5c01a6","#9c179e","#cc4778","#ed7953","#fdb42f","#f0f921"]);
+    // .range(["#eff3ff","#c6dbef","#9ecae1","#6baed6","#4292c6","#2171b5","#084594"]);
+
     const node_size = d3.scaleOrdinal()
         .domain(["projetos", "mapas", "ferramentas", "questões", "comentários", "respostas", "deacordo"])
         .range([10, 9, 8, 7, 5, 4, 3]);
@@ -160,6 +160,8 @@ function buildGraph(data_nodes, data_links) {
 
     let node_circle = node_group
         .append("circle")
+        // .attr("stroke", "#fff")
+        // .attr("stroke-width", 1.5)
         .attr("fill", "white")
         .attr("r", 0)
         .transition(t)
@@ -302,7 +304,7 @@ function myCheckBox(checked) {
 //     dlAnchorElem.click();
 // }
 
-function debug(value){
+function debug(value) {
     // console.log(d3.select("#time_ticks").value());
     // console.log(value);
 
@@ -317,24 +319,24 @@ function debug(value){
     // });
 
     // console.log(arrayDates);
-    
-    let times = d3.scaleTime().domain([0,50])
-    //   .range(new Set(arrayDates.sort()));
-      .range([d3.min(consolidated_data.nodes, d => d.created_at), d3.max(consolidated_data.nodes, d => d.created_at)]);
+
+    let times = d3.scaleTime().domain([0, 50])
+        //   .range(new Set(arrayDates.sort()));
+        .range([d3.min(consolidated_data.nodes, d => d.created_at), d3.max(consolidated_data.nodes, d => d.created_at)]);
     console.log(times(value));
     let date_limit = times(value);
     let filteredNodes = consolidated_data.nodes.filter((d) => { return d.created_at <= date_limit });
-    let filteredLinks = consolidated_data.links.filter((d) => { return nodes_contains(d, filteredNodes)});
+    let filteredLinks = consolidated_data.links.filter((d) => { return nodes_contains(d, filteredNodes) });
     d3.select("#choose_date").text(parseTime(date_limit))
     buildGraph(filteredNodes, filteredLinks);
     updateAll(filteredLinks);
 
-    function nodes_contains(link, nodes){
+    function nodes_contains(link, nodes) {
         let source = link.source.id;
         let target = link.target.id;
         for (let index = 0; index < nodes.length; index++) {
             const node_id = nodes[index].id;
-            if(node_id == target){
+            if (node_id == target) {
                 return true;
             }
         }
